@@ -9,4 +9,20 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <servlet-name>pushSmppConnects</servlet-name>
+    <jsp-file>/pushSmppConnects.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pushSmppConnects</servlet-name>
+    <url-pattern>/pushSmppConnects</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>apiEmail</servlet-name>
+    <jsp-file>/apiEmail.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>apiEmail</servlet-name>
+    <url-pattern>/apiEmail</url-pattern>
+  </servlet-mapping>
 </web-app>

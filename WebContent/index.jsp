@@ -114,6 +114,7 @@ if(username!=null){
 							    <label for="username">Username:</label>
 							   	<select class="form-control" id="username" name="username">
 							   		<option value="0">Please select an option</option>
+							   		<option value="vr" <%if(username.equalsIgnoreCase("vr")){%>selected="selected"<%} %>>vfirstAll</option>
 							   		<option value="22" <%if(username.equalsIgnoreCase("22")){%>selected="selected"<%} %> >valuefirst</option>
 							   		<option value="23" <%if(username.equalsIgnoreCase("23")){%>selected="selected"<%} %>>gupshupildo</option>
 							   		<option value="24" <%if(username.equalsIgnoreCase("24")){%>selected="selected"<%} %>>anuragtest</option>
@@ -121,6 +122,10 @@ if(username!=null){
 							   		<option value="26" <%if(username.equalsIgnoreCase("26")){%>selected="selected"<%} %>>vfildo</option>
 							   		<option value="27" <%if(username.equalsIgnoreCase("27")){%>selected="selected"<%} %>>vleaftr1</option>
 							   		<option value="28" <%if(username.equalsIgnoreCase("28")){%>selected="selected"<%} %>>vleaftr2</option>
+							   		<option value="32" <%if(username.equalsIgnoreCase("32")){%>selected="selected"<%} %>>vfirstTr1</option>
+							   		<option value="33" <%if(username.equalsIgnoreCase("33")){%>selected="selected"<%} %>>vfirstTr2</option>
+							   		<option value="34" <%if(username.equalsIgnoreCase("34")){%>selected="selected"<%} %>>vfirstTr3</option>
+							   		<option value="37" <%if(username.equalsIgnoreCase("37")){%>selected="selected"<%} %>>vfirstPR1</option>
 							   	</select>
 							  </div>
 			      		</div>
@@ -179,7 +184,117 @@ if(username!=null){
 			      			  
 			      		  }
 			    		JavaPostRequest javaPostRequest=new JavaPostRequest();
-			    		if(username.equalsIgnoreCase("0")){}else{
+			    		if(username.equalsIgnoreCase("0")){
+			    			
+			    		}else if(username.equalsIgnoreCase("vr")){
+
+			    			String data=javaPostRequest.vnsApiData("32", fromdate, todate,cookiename);
+			    			String data1=javaPostRequest.vnsApiData("33", fromdate, todate,cookiename);
+			    		if(!data.equalsIgnoreCase("") && !data1.equalsIgnoreCase("")){
+			    			
+			    		 Document html = Jsoup.parse(data);
+			    		 Document html1 = Jsoup.parse(data1);
+			            Elements table = html.select("table").select("tbody").select("tr").select("td");
+			            Elements table1 = html1.select("table").select("tbody").select("tr").select("td");
+			            // out.println( table);
+			            // System.out.println( table);
+			            
+			            
+			    		
+			      		%>
+			      		<table id="sgcdataTableId" class="table table-hover t4able-bordered"> 
+							 <thead> 
+							  <tr class="bg-black"> 
+							 	<th class="text-white">Username</th>
+							   <th class="text-white">Group By</th> 
+							   <th class="text-white">Total Requested</th> 
+							   <th class="text-white">Total Delivered</th> 
+							   <th class="text-white">Pending</th> 
+							   <th class="text-white">Total Failed</th> 
+							   <th class="text-white">Not Sent</th> 
+							   <th class="text-white">Others</th> 
+							   <th class="text-white last">Refund</th> 
+							  </tr> 
+							 </thead> 
+							 <tbody>
+							  <tr>
+							  <td>VFirsttr1</td>
+							  <%
+							  int totalrequest=0;
+							  int totaldelivery=0;
+							  int totalpending=0;
+							  int totalfailed=0;
+							  int totalNotsent=0;
+							  int totalother=0;
+							  int totalrefund=0;
+							  int i=0;
+							  for(Element element : table){
+				            	  if(i==1){
+				            		  totalrequest=totalrequest+Integer.parseInt(element.text().replace(",", ""));
+				            	  }else if(i==2){
+				            		  totaldelivery=totaldelivery+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(i==3){
+					            	  totalpending=totalpending+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(i==4){
+					            	  totalfailed=totalfailed+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(i==5){
+					            	  totalNotsent=totalNotsent+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(i==6){
+					            	  totalother=totalother+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(i==7){
+					            	  totalrefund=totalrefund+Integer.parseInt(element.text().replace(",", ""));
+					              }
+				            	   %> <td><%=element.text() %></td><%
+				            			   i++;
+				            	}
+							  
+							  %>
+							  
+							  </tr>
+							   <tr>
+							  <td>VFirsttr2</td>
+							  <%
+							  int j=0;
+							  for(Element element : table1){
+								  
+								  if(j==1){
+				            		  totalrequest=totalrequest+Integer.parseInt(element.text().replace(",", ""));
+				            	  }else if(j==2){
+				            		  totaldelivery=totaldelivery+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(j==3){
+					            	  totalpending=totalpending+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(j==4){
+					            	  totalfailed=totalfailed+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(j==5){
+					            	  totalNotsent=totalNotsent+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(j==6){
+					            	  totalother=totalother+Integer.parseInt(element.text().replace(",", ""));
+					              }else if(j==7){
+					            	  totalrefund=totalrefund+Integer.parseInt(element.text().replace(",", ""));
+					              }
+				            	   %> <td><%=element.text() %></td><%
+				            			   j++;
+				            	}
+							  
+							  %>
+							 
+							  </tr>
+							   <tr class="bg-black"> 
+							 	<th class="text-white">Total</th>
+							   <th class="text-white"></th> 
+							   <th class="text-white"><%=totalrequest %></th> 
+							   <th class="text-white"><%=totaldelivery %></th> 
+							   <th class="text-white"><%=totalpending %></th> 
+							   <th class="text-white"><%=totalfailed %></th> 
+							   <th class="text-white"><%=totalNotsent %></th> 
+							   <th class="text-white"><%=totalother %></th> 
+							   <th class="text-white last"><%=totalrefund %></th> 
+							  </tr>
+							 </tbody>
+						</table>
+						<%}
+			    		
+			    		}else{
 			    			String data=javaPostRequest.vnsApiData(username, fromdate, todate,cookiename);
 			    		if(data.equalsIgnoreCase("")){
 			    			
@@ -187,12 +302,41 @@ if(username!=null){
 			    		 Document html = Jsoup.parse(data);
 			           
 			             Element table = html.select("table").get(0); 
-			             out.println( table);
+			             Elements table1 = html.select("table").select("tbody").select("tr").select("td");
+			            // out.println( table);
+			            // System.out.println( table);
 			            
-			    		}
-			    		}
+			            
+			    		
 			      		%>
-			      		
+			      		<table id="sgcdataTableId" class="table table-hover t4able-bordered"> 
+							 <thead> 
+							  <tr class="bg-black"> 
+							   <th class="text-white">Group By</th> 
+							   <th class="text-white">Total Requested</th> 
+							   <th class="text-white">Total Delivered</th> 
+							   <th class="text-white">Pending</th> 
+							   <th class="text-white">Total Failed</th> 
+							   <th class="text-white">Not Sent</th> 
+							   <th class="text-white">Others</th> 
+							   <th class="text-white last">Refund</th> 
+							  </tr> 
+							 </thead> 
+							 <tbody>
+							  <tr>
+							  <%
+							  for(Element element : table1){
+				            	    System.out.println();
+				            	   %> <td><%=element.text() %></td><%
+				            	}
+							  
+							  %>
+							  
+							  </tr>
+							 </tbody>
+						</table>
+						<%}
+			    		} %>
 			      		</div>
 			      	</div>
 			      </div>
