@@ -26,8 +26,6 @@ public class PushSms {
 		   if(!data.equalsIgnoreCase("")){
 		    JSONObject pushobj=new JSONObject(data);
 		    if(pushobj.has("data")){
-		    	
-		    
 		    JSONArray jsonArray=pushobj.getJSONArray("data");
 		    for(int i=0; i<jsonArray.length();i++ ){
 		    	JSONObject jsondata=jsonArray.getJSONObject(i);
@@ -43,6 +41,9 @@ public class PushSms {
 		    	}
 		    }
 		    }
+		    }else {
+		    	smpp_dao.sendEmailCookieUpdate();
+		    	smpp_dao.sendSmsCookieUpdate();
 		    }
 		} catch (Exception e) {
 			e.printStackTrace();
