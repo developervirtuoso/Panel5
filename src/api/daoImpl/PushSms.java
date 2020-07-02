@@ -33,7 +33,8 @@ public class PushSms {
 		    			|| jsondata.getString("name").equalsIgnoreCase("dlt_vnsoft_tr1") 
 		    			|| jsondata.getString("name").equalsIgnoreCase("PARROTNZ_T3")
 		    			|| jsondata.getString("name").equalsIgnoreCase("PARROTNZ_T2")
-		    			|| jsondata.getString("name").equalsIgnoreCase("dlt_parrot_trn")){
+		    			|| jsondata.getString("name").equalsIgnoreCase("dlt_parrot_trn")
+		    			|| jsondata.getString("name").equalsIgnoreCase("PARROT_SZ_T")){
 		    		int kannelQ=jsondata.getInt("kannelQ");
 		    		if(kannelQ>=10000) {
 		    			smpp_dao.sendEmail(jsondata);

@@ -577,6 +577,129 @@ public class Smpp_DaoImpl {
 			}  
 			
 	 }
+	 public void readJSonArr_5Col(JSONArray jsonArray,String filname) {
+		  
+			try  
+			{  
+			
+			File file = new File(filname);   //creating a new file instance  
+			FileInputStream fis = new FileInputStream(file);   //obtaining bytes from the file  
+			//creating Workbook instance that refers to .xlsx file  
+			XSSFWorkbook wb = new XSSFWorkbook(fis);   
+			XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object  
+			Iterator<Row> itr = sheet.iterator();    //iterating over excel file  
+			while (itr.hasNext())                 
+			{  
+				JSONObject jsonObject=new JSONObject();
+			Row row = itr.next();  
+			Iterator<Cell> cellIterator = row.cellIterator();   //iterating over each column  
+			int i=0;
+			while (cellIterator.hasNext())   
+			{  
+			Cell cell = cellIterator.next();
+			if(cell.getRowIndex()==0){
+				jsonObject.put("id", "Vendor ID");
+				jsonObject.put("name", "name");
+				jsonObject.put("total", "total");
+				jsonObject.put("success", "success");
+				jsonObject.put("pending", "pending");
+				
+			}else {
+				if(i==0) {
+					switch (cell.getCellType())               
+					{  
+					case Cell.CELL_TYPE_STRING: {   //field that represents string cell type  
+					System.out.print(cell.getStringCellValue() + "\t\t\t");  
+					jsonObject.put("id", cell.getStringCellValue()+"");
+					break;  
+					}
+					case Cell.CELL_TYPE_NUMERIC: {   //field that represents number cell type  
+					System.out.print(cell.getNumericCellValue() + "\t\t\t");  
+					jsonObject.put("id", cell.getNumericCellValue()+"");
+					if(cell.getNumericCellValue()==10) {
+						jsonObject.put("name", "vnsoftvf_tr3(Direct EB)");
+					}else if(cell.getNumericCellValue()==11) {
+						jsonObject.put("name", "PARROTNZ_T1(DLT)");
+					}else if(cell.getNumericCellValue()==12) {
+						jsonObject.put("name", "vnsoft_tr1(DLT)");
+					}else if(cell.getNumericCellValue()==13) {
+						jsonObject.put("name", "vnsoft_tr(Direct EB)");
+					}else if(cell.getNumericCellValue()==16) {
+						jsonObject.put("name", "PARROTNZ_T2(DLT)");
+					}else if(cell.getNumericCellValue()==17) {
+						jsonObject.put("name", "PARROTNZ_T3(DLT)");
+					}else if(cell.getNumericCellValue()==18) {
+						jsonObject.put("name", "vnsoftvf_tr4");
+					}else {
+						jsonObject.put("name", "");
+					}
+					break;  
+					}
+					default:  
+					}
+				}else if(i==1){
+					switch (cell.getCellType())               
+					{  
+					case Cell.CELL_TYPE_STRING: {   //field that represents string cell type  
+					System.out.print(cell.getStringCellValue() + "\t\t\t");  
+					jsonObject.put("total", cell.getStringCellValue()+"");
+					break;  
+					}
+					case Cell.CELL_TYPE_NUMERIC: {   //field that represents number cell type  
+					System.out.print(cell.getNumericCellValue() + "\t\t\t");  
+					jsonObject.put("total", cell.getNumericCellValue()+"");
+					break;  
+					}
+					default:  
+					}
+				}else if(i==2){
+					switch (cell.getCellType())               
+					{  
+					case Cell.CELL_TYPE_STRING: {   //field that represents string cell type  
+					System.out.print(cell.getStringCellValue() + "\t\t\t");  
+					jsonObject.put("success", cell.getStringCellValue()+"");
+					break;  
+					}
+					case Cell.CELL_TYPE_NUMERIC: {   //field that represents number cell type  
+					System.out.print(cell.getNumericCellValue() + "\t\t\t");  
+					jsonObject.put("success", cell.getNumericCellValue()+"");
+					break;  
+					}
+					default:  
+					}
+				}else if(i==3){
+					switch (cell.getCellType())               
+					{  
+					case Cell.CELL_TYPE_STRING: {   //field that represents string cell type  
+					System.out.print(cell.getStringCellValue() + "\t\t\t");  
+					jsonObject.put("pending", cell.getStringCellValue()+"");
+					break;  
+					}
+					case Cell.CELL_TYPE_NUMERIC: {   //field that represents number cell type  
+					System.out.print(cell.getNumericCellValue() + "\t\t\t");  
+					jsonObject.put("pending", cell.getNumericCellValue()+"");
+					break;  
+					}
+					default:  
+					}
+				}
+				 i++; 
+			}
+			
+			
+			}  
+			
+			jsonArray.put(jsonObject);
+			System.out.println("");  
+			} 
+			System.out.println(jsonArray);
+			}  
+			catch(Exception e)  
+			{  
+			e.printStackTrace();  
+			}  
+			
+	 }
 	public void sendEmailCookieUpdate() {
 		Thread thread=new Thread() {
 			Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();

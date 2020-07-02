@@ -22,6 +22,7 @@
 String excelfile="";
 String excelfileurl="";
 String filePath = "";
+String pageurl = "";
 int imei = 0;
     String fieldName = "";
     String docTitle = "";
@@ -54,6 +55,9 @@ int imei = 0;
             System.out.println("here " + item);
             if (item.isFormField()) {
                 fieldName = item.getFieldName();
+                if(fieldName.equalsIgnoreCase("pageurl")){
+                	pageurl = item.getString();
+                }
                 System.out.println("here fieldname" + fieldName);
                 String value = item.getString();
                 System.out.println("here fieldname" + value);
@@ -93,7 +97,9 @@ int imei = 0;
     	 String decryptedString = smpp_DaoImpl.decrypt(encryptedString) ;
     	 System.out.println("encryptedString====>"+encryptedString);
     	 System.out.println("decryptedString====>"+decryptedString);
-    	response.sendRedirect("ChangeExcel?filename="+encryptedString);
+    	 
+    	response.sendRedirect(pageurl+"?filename="+encryptedString);
+    	
     	
    } catch (Exception e) {
        e.printStackTrace();

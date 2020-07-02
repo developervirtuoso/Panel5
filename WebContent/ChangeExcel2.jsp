@@ -140,7 +140,7 @@
                             <div class="col-md-8">
                                <form action="uploadFile.jsp" method="post" enctype="multipart/form-data">
                                	<div class="input-group mb-3">
-                               	 <input type="hidden" name="pageurl"  value="ChangeExcel"  class="form-control" >
+                               	 <input type="hidden" name="pageurl"  value="ChangeExcel2"  class="form-control" >
 								  <input type="file" name="file" class="form-control" >
 								  <div class="input-group-append">
 								    <button class="btn btn-success" type="submit">Submit</button>
@@ -157,27 +157,32 @@
                         	String ecrpt=request.getParameter("filename");
                         	String filename = daoImpl.decrypt(ecrpt.replace(" ", "+"));
                         	
-                        	daoImpl.readJSonArr(jsonArray, filename);
+                        	daoImpl.readJSonArr_5Col(jsonArray, filename);
                         }
                         %>
                         <div class="table-responsive">
                             <table id="htmltable" class="table">
                                 <thead>
                                     <tr>
-                                         <th>Vendor ID</th>
+                                        <th>Vendor ID</th>
                                         <th>Name</th>
-                                        <th>Pending Count</th>
+                                        <th>Total</th>
+                                        <th>Success</th>
+                                        <th>Pending</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <%
                                 	for(int i=1;i<jsonArray.length();i++){
                                 		JSONObject jsonObject=jsonArray.getJSONObject(i);
+                                		
                                 		%>
                                 			 <tr>
 		                                        <td><%=jsonObject.getString("id") %></td>
 		                                        <td><%=jsonObject.getString("name") %></td>
-		                                         <td><%=jsonObject.getString("count") %></td>
+		                                         <td><%=jsonObject.getString("total") %></td>
+		                                         <td><%=jsonObject.getString("success") %></td>
+		                                         <td><%=jsonObject.getString("pending") %></td>
 		                                      </tr>
                                 		<%
                                 	}

@@ -33,4 +33,12 @@
     <servlet-name>ChangeExcel</servlet-name>
     <url-pattern>/ChangeExcel</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <servlet-name>ChangeExcel2</servlet-name>
+    <jsp-file>/ChangeExcel2.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangeExcel2</servlet-name>
+    <url-pattern>/ChangeExcel2</url-pattern>
+  </servlet-mapping>
 </web-app>
