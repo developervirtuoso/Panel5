@@ -12,7 +12,7 @@ public class PushSms {
 
 	public static void main(String[] args) {
 		try {
-			
+			System.out.println("222222222222222222");
 		
 		Smpp_DaoImpl smpp_dao = new Smpp_DaoImpl();
 		JSONObject jsonObject=new JSONObject();

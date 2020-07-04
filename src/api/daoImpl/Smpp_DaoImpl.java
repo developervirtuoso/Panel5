@@ -720,4 +720,16 @@ public class Smpp_DaoImpl {
 		thread.start();
 		
 	}
+	public void sendServer4Mail(String txtmsg) {
+		Thread thread=new Thread() {
+			Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
+			String Email=daoImpl.getAccessEmail();
+			SendSms sendSms=new SendSms();
+			
+			Server4Mail emailSent=new Server4Mail(Email,"Server 4 Data",txtmsg);
+			
+		};
+		thread.start();
+		
+	}
 }

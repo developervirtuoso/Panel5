@@ -19,6 +19,9 @@ public class EmailSent {
 		JSONObject jsonObject=new JSONObject();
 		EmailSent sendEmail=new EmailSent("neerajbhagat9872@gmail.com", "Your Traffic", "Traffic",jsonObject);
 	}
+	public EmailSent() {
+		
+	}
 	public  EmailSent(String email,String subject,String txt_msg, JSONObject jsondata)
 	{
 
@@ -154,5 +157,6 @@ public class EmailSent {
 
         }
 	}
+	
 	
 }
