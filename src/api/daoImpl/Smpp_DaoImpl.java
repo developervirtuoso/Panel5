@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import com.beans.ApiEmail;
 import com.beans.ConnFile;
+import com.beans.Server4;
 
 import common.database.DbConnection;
 
@@ -26,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -720,16 +722,116 @@ public class Smpp_DaoImpl {
 		thread.start();
 		
 	}
-	public void sendServer4Mail(String txtmsg) {
+	public void sendServer4Mail(List<Server4> list, String txt_msg, String requested_date) {
+	
 		Thread thread=new Thread() {
 			Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
+	         
 			String Email=daoImpl.getAccessEmail();
 			SendSms sendSms=new SendSms();
 			
-			Server4Mail emailSent=new Server4Mail(Email,"Server 4 Data",txtmsg);
+			Server4Mail emailSent=new Server4Mail(Email,"Server 4 Data",txt_msg,requested_date);
 			
 		};
 		thread.start();
 		
+	}
+	public void insertServer4Data(List<Server4> list) {
+		Connection Conn=DbConnection.getInstance().getConnection();
+		   int i=0;
+		    PreparedStatement pst=null;
+		   
+		try 
+		{
+			pst=Conn.prepareStatement("insert into server4 (Account,AccountId,SUB,DEL,percentage,Pending) values(?,?,?,?,?,?)");
+			
+			for(Server4 server4:list) {
+				pst.setString(1,server4.getAccount());
+				pst.setLong(2, server4.getId());
+				pst.setLong(3, server4.getSUB());
+				pst.setLong(4, server4.getDEL());
+				pst.setLong(5, server4.getPercentage());
+				pst.setLong(6, server4.getPending());
+				 i=pst.executeUpdate();
+			}
+			
+			 
+	    	
+	    	
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}finally {
+			try {
+				if(Conn!=null) {
+					Conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(pst!=null) {
+					pst.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+	
+	}
+	public long lastSubCount() {
+
+		ArrayList<ApiEmail> apiEmails=new ArrayList<ApiEmail>();
+        Connection conn=DbConnection.getInstance().getConnection();
+         Statement st=null;
+        ResultSet rs=null;
+        long count=0;
+        try
+        {
+     	  st=conn.createStatement();
+     	  
+      	 rs = st.executeQuery("SELECT id,(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr1' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr1,\r\n" + 
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr2' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr2, \r\n" + 
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstPR1' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPR1, \r\n" + 
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr4' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr4, \r\n" + 
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr3' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr3\r\n" + 
+      	 		" FROM server4 LIMIT 1;");
+      	 while(rs.next())
+      	 {
+      		count=rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4");
+      	 }
+        }
+       catch(Exception e)
+        {
+     	  e.printStackTrace();
+        }finally {
+			try {
+				if(conn!=null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(st!=null) {
+					st.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return count;
+       
+
 	}
 }

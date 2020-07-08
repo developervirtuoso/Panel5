@@ -1,5 +1,7 @@
 package api.daoImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -10,7 +12,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class Server4Mail {
-	public Server4Mail(String email,String subject,String txt_msg) {
+	public Server4Mail(String email,String subject,String txt_msg, String requested_date) {
 
 
 		 String tos= "neerajbhagat9872@gmail.com,neeraj@virtuosonetsoft.in";
@@ -37,7 +39,11 @@ public class Server4Mail {
 
       //compose message  
       try {
-
+    	  Date date = new Date();  
+    	  SimpleDateFormat formatter= new SimpleDateFormat("dd MMMM yyyy"); 
+    	  String strdate= formatter.format(date); 
+    	  formatter = new SimpleDateFormat("HH:mm:ss");  
+    	   String strtime = formatter.format(date);
           MimeMessage message = new MimeMessage(session);
           message.setFrom(new InternetAddress(from));//change accordingly  
           InternetAddress[] addresses = InternetAddress.parse(email);
@@ -64,16 +70,20 @@ public class Server4Mail {
           		"</head>\r\n" + 
           		"<body>\r\n" + 
           		"\r\n" + 
-          		"<h2>Date: 2020-07-04 To 2020-07-04</h2>\r\n" + 
           		"\r\n" + 
           		"\r\n" + 
           		"<table>\r\n" + 
-          		"  <tr style='background-color: yellow;'>\r\n" + 
-          		"  <th>Accounts</th><th>Id</th>\r\n" + 
-          		"  <th>Submitted</th>\r\n" + 
-          		"  <th>Delivered</th>\r\n" + 
-          		"  <th>%age</th>\r\n" + 
-          		"  <th>Pending</th>\r\n" + 
+          		"   <tr align='center'>\r\n" + 
+          		"  <td align='center' style='background-color: #8080ff;'>Date: "+strdate+"</td>\r\n" + 
+          		"  <td align='center' style='background-color: #8080ff;'>time: "+strtime+"</td>\r\n" + 
+          		"  <td align='center' colspan='3'></td>\r\n" + 
+          		"  </tr>"
+          		+ "<tr align='center' style='background-color: #f0fc03;'>\r\n" + 
+          		"  <td align='center' ><b>Accounts</b></td>\r\n" + 
+          		"  <td align='center' ><b>Submitted</b></td>\r\n" + 
+          		"  <td align='center'><b>Delivered</b></td>\r\n" + 
+          		"  <td align='center' ><b>%age</b></td>\r\n" + 
+          		"  <td align='center' ><b>Pending</b></td>\r\n" + 
           		"  </tr>\r\n"
           		+ ""+txt_msg+"" +  
           		"  \r\n" + 
