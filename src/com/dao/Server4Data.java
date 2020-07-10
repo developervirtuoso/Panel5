@@ -112,6 +112,7 @@ public class Server4Data {
     		long percentage=0;
     		long Pending=0;
     	 	for(Server4 server4:list) {
+    	 		if(server4.getSUB()>0) {
     	 		txt_msg=txt_msg+"<tr><td align='center' style='background-color: orange;'>"+server4.getAccount()+"</td>\r\n" + 
     	 				"  <td align='center'>"+server4.getSUB()+"</td>\r\n" + 
     	 				"  <td align='center'>"+server4.getDEL()+"</td>\r\n" + 
@@ -121,6 +122,7 @@ public class Server4Data {
     	 		SUB=SUB+server4.getSUB();
     	 		DEL=DEL+server4.getDEL();
     	 		Pending=Pending+server4.getPending();
+    	 			}
     	 		}
     	 	percentage=(DEL*10)/(SUB/10);
     	 	long lastcount=daoImpl.lastSubCount();
