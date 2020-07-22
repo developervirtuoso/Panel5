@@ -64,7 +64,6 @@ if(username!=null){
 	  
   }
 
-
 %> 
 <div id="wrapper">
 

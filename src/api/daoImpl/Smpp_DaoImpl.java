@@ -13,9 +13,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.beans.AccountDetails;
 import com.beans.ApiEmail;
 import com.beans.ConnFile;
+import com.beans.ReportSmsSummary;
 import com.beans.Server4;
+import com.google.gson.Gson;
 
 import common.database.DbConnection;
 
@@ -833,5 +836,136 @@ public class Smpp_DaoImpl {
 		return count;
        
 
+	}
+	public List<Server4> getServer4DataWithApi(String fromdate,String todate){
+		List<Server4> list=new ArrayList<Server4>();
+		Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
+		ArrayList<AccountDetails> accountDetails =daoImpl.getAccountDetails();
+		ApiController apiController=new ApiController();
+		long total_sub=0;
+		long total_del=0;
+		long total_pending=0;
+		for(AccountDetails details:accountDetails) {
+			if(details.getAccountname().equalsIgnoreCase("vfirstTr1") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr2") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr3") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr4") ||
+					details.getAccountname().equalsIgnoreCase("vfirstPR1")) {
+			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
+			try {
+				JSONObject jsonObject=new JSONObject(data);
+				JSONObject response=jsonObject.getJSONObject("response");
+				if(response.has("report_smsSummaryList")) {
+					JSONArray report_smsSummaryList=response.getJSONArray("report_smsSummaryList");
+					JSONObject report_smsSummaryobj=report_smsSummaryList.getJSONObject(0);
+					if(report_smsSummaryobj.has("report_smsSummary")) {
+						Server4 server4=new Server4();
+						Gson gson=new Gson();
+						JSONObject report_smsSummary=report_smsSummaryobj.getJSONObject("report_smsSummary");
+						ReportSmsSummary smsSummary=gson.fromJson(report_smsSummary.toString(), ReportSmsSummary.class);
+						String t="0";
+						if(smsSummary.getTotal()!=null) {
+							t=smsSummary.getTotal();
+						}
+						String s="0";
+						if(smsSummary.getSuccess()!=null) {
+							s=smsSummary.getSuccess();
+						}
+                        long sub=Long.parseLong(t);
+                        long del=Long.parseLong(s);
+                        
+                        long pending=smsSummary.getPending();
+                        
+                         total_sub = total_sub + (int) sub;
+                         total_del = total_del + (int) del;
+                         total_pending = total_pending + pending;
+                       //  System.out.println("del=="+del);
+                        // System.out.println("sub=="+sub);
+                        // System.out.println("per=="+(del *100) * sub);
+                         long per =0;
+                         if(sub!=0) {
+                        	 per =(del / (sub / 100));
+                         }
+                        
+                        System.out.println(per);
+                        server4.setSUB(sub);
+                        server4.setDEL(del);
+                        server4.setPending(pending);
+                        server4.setPercentage(per);
+                        server4.setAccount(details.getAccountname());
+                        server4.setId((long) details.getAccountid());
+                        list.add(server4);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			}
+		}
+	/*	Server4 server4=new Server4();
+		server4.setSUB(total_sub);
+        server4.setDEL(total_del);
+        server4.setPending(total_pending);
+        System.out.println(total_del);
+        System.out.println(total_sub);
+        
+        long per = (total_del / (total_sub / 100));
+        server4.setPercentage(per);
+        server4.setAccount("total");
+        list.add(server4);*/
+		return list;
+	}
+	public ArrayList<AccountDetails> getAccountDetails() {
+		ArrayList<AccountDetails> accountDetails=new ArrayList<AccountDetails>();
+        Connection conn=DbConnection.getInstance().getConnection();
+         Statement st=null;
+        ResultSet rs=null;
+        try
+        {
+     	  st=conn.createStatement();
+     	  
+      	 rs = st.executeQuery("select * from accountDetails_s5 where pwd is not null");
+      	 while(rs.next())
+      	 {
+      		AccountDetails details=new AccountDetails();
+      		details.setId(rs.getInt("id"));
+      		details.setAccountid(rs.getInt("accountid"));
+      		details.setAccountname(rs.getString("accountname")); 
+      		details.setCompanyname(rs.getString("companyname"));
+      		details.setAccounttype(rs.getString("accounttype"));
+      		details.setPM(rs.getString("PM"));
+      		details.setServer(rs.getString("server"));
+      		details.setPwd(rs.getString("pwd"));
+      		accountDetails.add(details);
+      	 }
+        }
+       catch(Exception e)
+        {
+     	  e.printStackTrace();
+        }finally {
+			try {
+				if(conn!=null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(st!=null) {
+					st.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return accountDetails;
+       
 	}
 }
