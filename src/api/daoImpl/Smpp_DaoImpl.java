@@ -850,7 +850,9 @@ public class Smpp_DaoImpl {
 					details.getAccountname().equalsIgnoreCase("vfirstTr2") ||
 					details.getAccountname().equalsIgnoreCase("vfirstTr3") ||
 					details.getAccountname().equalsIgnoreCase("vfirstTr4") ||
-					details.getAccountname().equalsIgnoreCase("vfirstPR1")) {
+					details.getAccountname().equalsIgnoreCase("vfirstPR1") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr12") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr11")) {
 			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
 			try {
 				JSONObject jsonObject=new JSONObject(data);

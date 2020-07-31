@@ -46,9 +46,16 @@ public class ApiController {
 	public String getServer4DataToApi(String accountname,String pwd,String fromdate,String todate) {
 		String jsonData="";
 		try {
-			HttpResponse<JsonNode> response = Unirest.get("http://172.105.57.57/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
-					.asJson();
-			jsonData=response.getBody().toString();
+			if(accountname.equalsIgnoreCase("vfirstTr12") || accountname.equalsIgnoreCase("vfirstTr11")) {
+				HttpResponse<JsonNode> response = Unirest.get("http://172.105.50.198:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
+						.asJson();
+				jsonData=response.getBody().toString();
+			}else {
+				HttpResponse<JsonNode> response = Unirest.get("http://172.105.57.57/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
+						.asJson();
+				jsonData=response.getBody().toString();
+			}
+			
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
