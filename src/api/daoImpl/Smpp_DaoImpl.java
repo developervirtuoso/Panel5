@@ -794,17 +794,20 @@ public class Smpp_DaoImpl {
         long count=0;
         try
         {
+        	
      	  st=conn.createStatement();
      	  
       	 rs = st.executeQuery("SELECT id,(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr1' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr1,\r\n" + 
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr2' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr2, \r\n" + 
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstPR1' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPR1, \r\n" + 
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr4' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr4, \r\n" + 
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr12' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr12, \r\n" + 
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr11' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr11, \r\n" + 
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr3' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr3\r\n" + 
       	 		" FROM server4 LIMIT 1;");
       	 while(rs.next())
       	 {
-      		count=rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4");
+      		count=rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4")+rs.getLong("vfirstTr12")+rs.getLong("vfirstTr11");
       	 }
         }
        catch(Exception e)
