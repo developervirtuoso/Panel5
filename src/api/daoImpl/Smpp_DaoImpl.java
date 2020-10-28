@@ -889,7 +889,7 @@ public class Smpp_DaoImpl {
                         // System.out.println("per=="+(del *100) * sub);
                          long per =0;
                          if(sub!=0) {
-                        	 per =(del / (sub / 100));
+                        	 per =(del*100 / (sub));
                          }
                         
                         System.out.println(per);
