@@ -858,6 +858,7 @@ public class Smpp_DaoImpl {
 					details.getAccountname().equalsIgnoreCase("vfirstTr11")) {
 			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
 			try {
+				//System.out.println(data);
 				JSONObject jsonObject=new JSONObject(data);
 				JSONObject response=jsonObject.getJSONObject("response");
 				if(response.has("report_smsSummaryList")) {
@@ -889,10 +890,10 @@ public class Smpp_DaoImpl {
                         // System.out.println("per=="+(del *100) * sub);
                          long per =0;
                          if(sub!=0) {
-                        	 per =(del / (sub / 100));
+                        	 per =(del*100 / (sub));
                          }
                         
-                        System.out.println(per);
+                      //  System.out.println(per);
                         server4.setSUB(sub);
                         server4.setDEL(del);
                         server4.setPending(pending);

@@ -31,7 +31,7 @@ public class Server4Data {
         	 String requested_date=java.time.LocalDate.now().toString();
             Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
             List<Server4> list=daoImpl.getServer4DataWithApi(requested_date,requested_date);
-            System.out.println(list);
+           // System.out.println(list);
         	String txt_msg="";
     		 long SUB=0;
     		long DEL=0;
