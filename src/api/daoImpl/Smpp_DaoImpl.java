@@ -789,7 +789,7 @@ public class Smpp_DaoImpl {
 
 		ArrayList<ApiEmail> apiEmails=new ArrayList<ApiEmail>();
         Connection conn=DbConnection.getInstance().getConnection();
-         Statement st=null;
+        Statement st=null;
         ResultSet rs=null;
         long count=0;
         try
@@ -808,6 +808,7 @@ public class Smpp_DaoImpl {
       	 while(rs.next())
       	 {
       		count=rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4")+rs.getLong("vfirstTr12")+rs.getLong("vfirstTr11");
+      	 
       	 }
         }
        catch(Exception e)
@@ -855,7 +856,8 @@ public class Smpp_DaoImpl {
 					details.getAccountname().equalsIgnoreCase("vfirstTr4") ||
 					details.getAccountname().equalsIgnoreCase("vfirstPR1") ||
 					details.getAccountname().equalsIgnoreCase("vfirstTr12") ||
-					details.getAccountname().equalsIgnoreCase("vfirstTr11")) {
+					details.getAccountname().equalsIgnoreCase("vfirstTr11") ||
+					details.getAccountname().equalsIgnoreCase("vfCamp")){
 			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
 			try {
 				//System.out.println(data);

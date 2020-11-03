@@ -66,7 +66,9 @@ public class Server4Data {
     	 			"                <td align='center' colspan='3'> </td>\r\n" + 
     	 			"\r\n" + 
     	 			"            </tr> ";
+    	 	System.out.println("lastcount===="+lastcount);
     	 	long traffic=SUB-lastcount;
+    	 	System.out.println("traffic===="+traffic);
     	 	txt_msg=txt_msg+"<tr>\r\n" + 
     	 			"                <td align='center' style='background-color:#9999ff;'>&nbsp;</td>\r\n" + 
     	 			"                <td align='center' colspan='4'> </td>\r\n" + 
@@ -78,8 +80,8 @@ public class Server4Data {
     	 			"                <td align='center' colspan='3'> </td>\r\n" + 
     	 			"\r\n" + 
     	 			"            </tr> ";
-           daoImpl.sendServer4Mail(list,txt_msg,requested_date);
-           daoImpl.insertServer4Data(list);
+          daoImpl.sendServer4Mail(list,txt_msg,requested_date);
+          daoImpl.insertServer4Data(list);
         }catch (Exception e) {
 			e.printStackTrace();
 		}

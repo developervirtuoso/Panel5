@@ -50,7 +50,14 @@ public class ApiController {
 				HttpResponse<JsonNode> response = Unirest.get("http://172.105.50.198:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
 						.asJson();
 				jsonData=response.getBody().toString();
-			}else {
+			}
+			if(accountname.equalsIgnoreCase("vfCamp")) {
+				HttpResponse<JsonNode> response = Unirest.get("http://45.79.124.93:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
+						.asJson();
+				jsonData=response.getBody().toString();
+				
+			}
+			else {
 				HttpResponse<JsonNode> response = Unirest.get("http://172.105.57.57/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
 						.asJson();
 				jsonData=response.getBody().toString();
