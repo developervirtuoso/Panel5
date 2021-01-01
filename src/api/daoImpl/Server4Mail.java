@@ -76,7 +76,7 @@ public class Server4Mail {
           		"   <tr align='center'>\r\n" + 
           		"  <td align='center' style='background-color: #8080ff;'>Date: "+strdate+"</td>\r\n" + 
           		"  <td align='center' style='background-color: #8080ff;'>time: "+strtime+"</td>\r\n" + 
-          		"  <td align='center' colspan='3'></td>\r\n" + 
+          		"  <td align='center' colspan='4'></td>\r\n" + 
           		"  </tr>"
           		+ "<tr align='center' style='background-color: #f0fc03;'>\r\n" + 
           		"  <td align='center' ><b>Accounts</b></td>\r\n" + 
@@ -84,6 +84,8 @@ public class Server4Mail {
           		"  <td align='center'><b>Delivered</b></td>\r\n" + 
           		"  <td align='center' ><b>%age</b></td>\r\n" + 
           		"  <td align='center' ><b>Pending</b></td>\r\n" + 
+          		"  <td align='center' ><b>Pending %age</b></td>\r\n" + 
+
           		"  </tr>\r\n"
           		+ ""+txt_msg+"" +  
           		"  \r\n" + 

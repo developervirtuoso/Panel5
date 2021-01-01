@@ -46,21 +46,66 @@ public class ApiController {
 	public String getServer4DataToApi(String accountname,String pwd,String fromdate,String todate) {
 		String jsonData="";
 		try {
-			if(accountname.equalsIgnoreCase("vfirstTr12") || accountname.equalsIgnoreCase("vfirstTr11")) {
+			if(accountname.equalsIgnoreCase("vfirstTr12") || accountname.equalsIgnoreCase("vfirstTr11")|| accountname.equalsIgnoreCase("vfirstTr14")) {
 				HttpResponse<JsonNode> response = Unirest.get("http://172.105.50.198:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
 						.asJson();
 				jsonData=response.getBody().toString();
+				System.out.println("http://172.105.50.198:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json");
+
+				System.out.println(accountname+"===8888======="+jsonData);
 			}
-			if(accountname.equalsIgnoreCase("vfCamp")) {
+			else if(accountname.equalsIgnoreCase("vfCamp")|| accountname.equalsIgnoreCase("vfirstTr")|| accountname.equalsIgnoreCase("vfgsm")|| accountname.equalsIgnoreCase("vfCamp1")|| accountname.equalsIgnoreCase("vfCamp2")|| accountname.equalsIgnoreCase("vfirstTr31")) {
 				HttpResponse<JsonNode> response = Unirest.get("http://45.79.124.93:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
 						.asJson();
 				jsonData=response.getBody().toString();
+				System.out.println("http://45.79.124.93:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json");
+
+				System.out.println(accountname+"=====9999====="+jsonData);
 				
 			}
 			else {
 				HttpResponse<JsonNode> response = Unirest.get("http://172.105.57.57/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
 						.asJson();
 				jsonData=response.getBody().toString();
+				System.out.println("http://172.105.57.57/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json");
+
+				System.out.println(accountname+"===000======="+jsonData);
+			}
+			
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+		//System.out.println(jsonData);
+		return jsonData;
+	}
+	public String getServer4DataForVFToApi(String accountname,String pwd,String fromdate,String todate) {
+		String jsonData="";
+		try {
+			if(accountname.equalsIgnoreCase("vfirstTr14")) {
+				HttpResponse<JsonNode> response = Unirest.get("http://172.105.50.198:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
+						.asJson();
+				jsonData=response.getBody().toString();
+				System.out.println(accountname+"===smpp3======="+jsonData);
+				System.out.println("http://172.105.50.198:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json");
+
+				
+			}
+			else if(accountname.equalsIgnoreCase("vfirstTr31")) {
+				HttpResponse<JsonNode> response = Unirest.get("http://45.79.124.93:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
+						.asJson();
+				jsonData=response.getBody().toString();
+				System.out.println(accountname+"=====smpp1====="+jsonData);
+				System.out.println("http://45.79.124.93:5612/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json");
+
+				
+			}
+			else if(accountname.equalsIgnoreCase("vfirstTr5") || accountname.equalsIgnoreCase("vfirstTr6")){
+				HttpResponse<JsonNode> response = Unirest.get("http://172.105.57.57/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json")
+						.asJson();
+				jsonData=response.getBody().toString();
+				System.out.println(accountname+"===setup-0======="+jsonData);
+				System.out.println("http://172.105.57.57/SMSApi/report/smsSummary?userid="+accountname+"&password="+pwd+"&fromdate="+fromdate+"&todate="+todate+"&groupby=summary&output=json");
+
 			}
 			
 		} catch (UnirestException e) {

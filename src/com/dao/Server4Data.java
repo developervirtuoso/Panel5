@@ -37,6 +37,7 @@ public class Server4Data {
     		long DEL=0;
     		long percentage=0;
     		long Pending=0;
+    		long Pending_PER=0;
     	 	for(Server4 server4:list) {
     	 		if(server4.getSUB()>0) {
     	 		txt_msg=txt_msg+"<tr><td align='center' style='background-color: orange;'>"+server4.getAccount()+"</td>\r\n" + 
@@ -44,40 +45,48 @@ public class Server4Data {
     	 				"  <td align='center'>"+server4.getDEL()+"</td>\r\n" + 
     	 				"  <td align='center'>"+server4.getPercentage()+"</td>\r\n" + 
     	 				"  <td align='center'>"+server4.getPending()+"</td>\r\n" + 
+    	 				"  <td align='center'>"+server4.getPending_per()+"</td>\r\n" +
     	 				"  </tr>";
+    	 		System.out.println("Before sub=="+SUB);
+    	 		System.out.println("sub value=="+server4.getSUB());
     	 		SUB=SUB+server4.getSUB();
+    	 		System.out.println("after add  sub=="+SUB);
     	 		DEL=DEL+server4.getDEL();
     	 		Pending=Pending+server4.getPending();
     	 			}
     	 		}
     	 	percentage=(DEL*10)/(SUB/10);
+    	 	Pending_PER=(Pending*10)/(SUB/10);
     	 	long lastcount=daoImpl.lastSubCount();
+    	 	System.out.println("lastcountt===="+lastcount);
     	 	txt_msg=txt_msg+"<tr>\r\n" + 
     	 			"                <td align='center' style='background-color: orange;'>Total </td>\r\n" + 
     	 			"                <td align='center'>"+SUB+" </td>\r\n" + 
     	 			"                <td align='center'>"+DEL+" </td>\r\n" + 
     	 			"                <td align='center'>"+percentage+" </td>\r\n" + 
     	 			"                <td align='center'>"+Pending+" </td>\r\n" + 
+    	 			"                <td align='center'>"+Pending_PER+" </td>\r\n" + 
     	 			"\r\n" + 
     	 			"            </tr> ";
     	 	txt_msg=txt_msg+"<tr>\r\n" + 
     	 			"                <td align='center' style='background-color: #8080ff ;'>Last Half Hour </td>\r\n" + 
     	 			"                <td align='center'>"+lastcount+" </td>\r\n" + 
-    	 			"                <td align='center' colspan='3'> </td>\r\n" + 
+    	 			"                <td align='center' colspan='4'> </td>\r\n" + 
     	 			"\r\n" + 
     	 			"            </tr> ";
     	 	System.out.println("lastcount===="+lastcount);
+    	 	System.out.println("subbbb===="+SUB);
     	 	long traffic=SUB-lastcount;
     	 	System.out.println("traffic===="+traffic);
     	 	txt_msg=txt_msg+"<tr>\r\n" + 
     	 			"                <td align='center' style='background-color:#9999ff;'>&nbsp;</td>\r\n" + 
-    	 			"                <td align='center' colspan='4'> </td>\r\n" + 
+    	 			"                <td align='center' colspan='5'> </td>\r\n" + 
     	 			"\r\n" + 
     	 			"            </tr> ";
     	 	txt_msg=txt_msg+"<tr>\r\n" + 
     	 			"                <td align='center' style='background-color:#8080ff;'>Add On Traffic </td>\r\n" + 
     	 			"                <td align='center'>"+traffic+" </td>\r\n" + 
-    	 			"                <td align='center' colspan='3'> </td>\r\n" + 
+    	 			"                <td align='center' colspan='4'> </td>\r\n" + 
     	 			"\r\n" + 
     	 			"            </tr> ";
           daoImpl.sendServer4Mail(list,txt_msg,requested_date);

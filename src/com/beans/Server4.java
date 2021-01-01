@@ -7,6 +7,13 @@ public class Server4 {
 	private Long DEL;
 	private Long percentage;
 	private Long Pending;
+	public Long getPending_per() {
+		return Pending_per;
+	}
+	public void setPending_per(Long pending_per) {
+		Pending_per = pending_per;
+	}
+	private Long Pending_per;
 	public String getAccount() {
 		return Account;
 	}
