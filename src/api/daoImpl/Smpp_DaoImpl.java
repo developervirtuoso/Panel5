@@ -1579,12 +1579,19 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr14' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr14,\r\n" +
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr5' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr5,\r\n" +
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr6' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr6,\r\n" +
-      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTrN01' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTrN01\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTrN01' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTrN01,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr7' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr7,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstPR2' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPR2,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfTest' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfTest,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstPr4' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPr4,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstPr3' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPr3,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr9' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr9,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr10' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr10\r\n" +
 
-      			" FROM server4 LIMIT 1;");
+      			 " FROM server4 LIMIT 1;");
       	 while(rs.next())
       	 {
-      		count=rs.getLong("vfgsm")+rs.getLong("vfirstTr")+rs.getLong("vfCamp")+rs.getLong("vfCamp1")+rs.getLong("vfCamp2")+rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4")+rs.getLong("vfirstTr12")+rs.getLong("vfirstTr11")+rs.getLong("vfirstTr31")+rs.getLong("vfirstTr14")+rs.getLong("vfirstTr5")+rs.getLong("vfirstTr6")+rs.getLong("vfirstTrN01");
+      		count=rs.getLong("vfirstPr4")+rs.getLong("vfirstPr3")+rs.getLong("vfirstTr9")+rs.getLong("vfirstTr10")+rs.getLong("vfirstTr7")+rs.getLong("vfirstPR2")+rs.getLong("vfTest")+rs.getLong("vfgsm")+rs.getLong("vfirstTr")+rs.getLong("vfCamp")+rs.getLong("vfCamp1")+rs.getLong("vfCamp2")+rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4")+rs.getLong("vfirstTr12")+rs.getLong("vfirstTr11")+rs.getLong("vfirstTr31")+rs.getLong("vfirstTr14")+rs.getLong("vfirstTr5")+rs.getLong("vfirstTr6")+rs.getLong("vfirstTrN01");
       	 
       	 }
         }
@@ -1695,7 +1702,14 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
 					details.getAccountname().equalsIgnoreCase("vfirstTr14")||
 					details.getAccountname().equalsIgnoreCase("vfirstTr5")||
 					details.getAccountname().equalsIgnoreCase("vfirstTr6")||
-				details.getAccountname().equalsIgnoreCase("vfirstTrN01")){
+					details.getAccountname().equalsIgnoreCase("vfirstTrN01")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr7")||
+					details.getAccountname().equalsIgnoreCase("vfirstPR2")||
+					details.getAccountname().equalsIgnoreCase("vfTest")||
+					details.getAccountname().equalsIgnoreCase("vfirstPr4")||
+					details.getAccountname().equalsIgnoreCase("vfirstPr3")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr9")||
+				details.getAccountname().equalsIgnoreCase("vfirstTr10")){
 			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
 			try {
 				//System.out.println(data);
@@ -2067,7 +2081,9 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
         {
      	  st=conn.createStatement();
      	  
-      	 rs = st.executeQuery("select * from accountDetails_s5 where pwd is not null");
+      	 rs = st.executeQuery("select * from accountdetails_s5 where pwd is not null");
+      //	 rs = st.executeQuery("select * from accountDetails_s5 where pwd is not null");
+
       	 while(rs.next())
       	 {
       		AccountDetails details=new AccountDetails();

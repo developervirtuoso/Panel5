@@ -50,6 +50,8 @@ div#icn {
 Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 Calendar cal = Calendar.getInstance();
+/*cal.add(Calendar.HOUR, 5);
+cal.add(Calendar.MINUTE, 30); */
 System.out.println(dateFormat.format(cal.getTime()).toString());
 %>
 <div id="time">

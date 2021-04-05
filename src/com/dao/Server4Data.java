@@ -40,13 +40,24 @@ public class Server4Data {
     		long Pending_PER=0;
     	 	for(Server4 server4:list) {
     	 		if(server4.getSUB()>0) {
-    	 		txt_msg=txt_msg+"<tr><td align='center' style='background-color: orange;'>"+server4.getAccount()+"</td>\r\n" + 
-    	 				"  <td align='center'>"+server4.getSUB()+"</td>\r\n" + 
-    	 				"  <td align='center'>"+server4.getDEL()+"</td>\r\n" + 
-    	 				"  <td align='center'>"+server4.getPercentage()+"</td>\r\n" + 
-    	 				"  <td align='center'>"+server4.getPending()+"</td>\r\n" + 
-    	 				"  <td align='center'>"+server4.getPending_per()+"</td>\r\n" +
-    	 				"  </tr>";
+    	 			if(server4.getAccount().equalsIgnoreCase("vfirstTr31") || server4.getAccount().equalsIgnoreCase("vfirstTr14") || server4.getAccount().equalsIgnoreCase("vfirstTr5") || server4.getAccount().equalsIgnoreCase("vfirstTr6")) {
+    	 				txt_msg=txt_msg+"<tr><td align='center' style='background-color: #FAFC75;'>"+server4.getAccount()+"</td>\r\n" + 
+    	    	 				"  <td align='center' style='background-color: #FAFC75;'>"+server4.getSUB()+"</td>\r\n" + 
+    	    	 				"  <td align='center' style='background-color: #FAFC75;'>"+server4.getDEL()+"</td>\r\n" + 
+    	    	 				"  <td align='center' style='background-color: #FAFC75;'>"+server4.getPercentage()+"</td>\r\n" + 
+    	    	 				"  <td align='center' style='background-color: #FAFC75;'>"+server4.getPending()+"</td>\r\n" + 
+    	    	 				"  <td align='center' style='background-color: #FAFC75;'>"+server4.getPending_per()+"</td>\r\n" +
+    	    	 				"  </tr>";
+    	 			}else {
+    	 				txt_msg=txt_msg+"<tr><td align='center' style='background-color: orange;'>"+server4.getAccount()+"</td>\r\n" + 
+    	    	 				"  <td align='center'>"+server4.getSUB()+"</td>\r\n" + 
+    	    	 				"  <td align='center'>"+server4.getDEL()+"</td>\r\n" + 
+    	    	 				"  <td align='center'>"+server4.getPercentage()+"</td>\r\n" + 
+    	    	 				"  <td align='center'>"+server4.getPending()+"</td>\r\n" + 
+    	    	 				"  <td align='center'>"+server4.getPending_per()+"</td>\r\n" +
+    	    	 				"  </tr>";
+    	 			}
+    	 	
     	 		System.out.println("Before sub=="+SUB);
     	 		System.out.println("sub value=="+server4.getSUB());
     	 		SUB=SUB+server4.getSUB();
