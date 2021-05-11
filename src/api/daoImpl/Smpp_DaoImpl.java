@@ -1586,13 +1586,14 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstPr4' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPr4,\r\n" +
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstPr3' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPr3,\r\n" +
       	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr9' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr9,\r\n" +
-      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr10' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr10\r\n" +
-
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr10' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr10,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr15' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr15,\r\n" +
+      	 		"(SELECT SUB FROM server4 WHERE ACCOUNT ='vfirstTr16' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr16\r\n" +
       			 " FROM server4 LIMIT 1;");
       	 while(rs.next())
       	 {
-      		count=rs.getLong("vfirstPr4")+rs.getLong("vfirstPr3")+rs.getLong("vfirstTr9")+rs.getLong("vfirstTr10")+rs.getLong("vfirstTr7")+rs.getLong("vfirstPR2")+rs.getLong("vfTest")+rs.getLong("vfgsm")+rs.getLong("vfirstTr")+rs.getLong("vfCamp")+rs.getLong("vfCamp1")+rs.getLong("vfCamp2")+rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4")+rs.getLong("vfirstTr12")+rs.getLong("vfirstTr11")+rs.getLong("vfirstTr31")+rs.getLong("vfirstTr14")+rs.getLong("vfirstTr5")+rs.getLong("vfirstTr6")+rs.getLong("vfirstTrN01");
-      	 
+      		count=rs.getLong("vfirstTr15")+rs.getLong("vfirstTr16")+rs.getLong("vfirstPr4")+rs.getLong("vfirstPr3")+rs.getLong("vfirstTr9")+rs.getLong("vfirstTr10")+rs.getLong("vfirstTr7")+rs.getLong("vfirstPR2")+rs.getLong("vfTest")+rs.getLong("vfgsm")+rs.getLong("vfirstTr")+rs.getLong("vfCamp")+rs.getLong("vfCamp1")+rs.getLong("vfCamp2")+rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4")+rs.getLong("vfirstTr12")+rs.getLong("vfirstTr11")+rs.getLong("vfirstTr31")+rs.getLong("vfirstTr14")+rs.getLong("vfirstTr5")+rs.getLong("vfirstTr6")+rs.getLong("vfirstTrN01");
+      	 System.out.println("last count value after sql query="+count);
       	 }
         }
        catch(Exception e)
@@ -1709,7 +1710,9 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
 					details.getAccountname().equalsIgnoreCase("vfirstPr4")||
 					details.getAccountname().equalsIgnoreCase("vfirstPr3")||
 					details.getAccountname().equalsIgnoreCase("vfirstTr9")||
-				details.getAccountname().equalsIgnoreCase("vfirstTr10")){
+				details.getAccountname().equalsIgnoreCase("vfirstTr10")||
+				details.getAccountname().equalsIgnoreCase("vfirstTr15")||
+				details.getAccountname().equalsIgnoreCase("vfirstTr16")){
 			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
 			try {
 				//System.out.println(data);
