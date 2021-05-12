@@ -1782,6 +1782,112 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
         list.add(server4);*/
 		return list;
 	}
+	
+	public List<Server4> getServer4DataWithApi(String fromdate,String todate, String accountType){
+		List<Server4> list=new ArrayList<Server4>();
+		Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
+		ArrayList<AccountDetails> accountDetails =daoImpl.getAccountDetailsByAccountType(accountType);
+		ApiController apiController=new ApiController();
+		long total_sub=0;
+		long total_del=0;
+		long total_pending=0;
+		for(AccountDetails details:accountDetails) {
+			System.out.println("accuntname=="+details.getAccountname());
+			if(details.getAccountname().equalsIgnoreCase("vfirstTr1") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr2") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr3") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr4") ||
+					details.getAccountname().equalsIgnoreCase("vfirstPR1") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr12") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr11") ||
+					details.getAccountname().equalsIgnoreCase("vfCamp") ||
+					details.getAccountname().equalsIgnoreCase("vfirstTr")||
+					details.getAccountname().equalsIgnoreCase("vfgsm")||
+					details.getAccountname().equalsIgnoreCase("vfCamp1")||
+					details.getAccountname().equalsIgnoreCase("vfCamp2")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr31")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr14")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr5")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr6")||
+					details.getAccountname().equalsIgnoreCase("vfirstTrN01")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr7")||
+					details.getAccountname().equalsIgnoreCase("vfirstPR2")||
+					details.getAccountname().equalsIgnoreCase("vfTest")||
+					details.getAccountname().equalsIgnoreCase("vfirstPr4")||
+					details.getAccountname().equalsIgnoreCase("vfirstPr3")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr9")||
+				details.getAccountname().equalsIgnoreCase("vfirstTr10")||
+				details.getAccountname().equalsIgnoreCase("vfirstTr15")||
+				details.getAccountname().equalsIgnoreCase("vfirstTr16")){
+			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
+			try {
+				//System.out.println(data);
+				JSONObject jsonObject=new JSONObject(data);
+				JSONObject response=jsonObject.getJSONObject("response");
+				if(response.has("report_smsSummaryList")) {
+					JSONArray report_smsSummaryList=response.getJSONArray("report_smsSummaryList");
+					JSONObject report_smsSummaryobj=report_smsSummaryList.getJSONObject(0);
+					if(report_smsSummaryobj.has("report_smsSummary")) {
+						Server4 server4=new Server4();
+						Gson gson=new Gson();
+						JSONObject report_smsSummary=report_smsSummaryobj.getJSONObject("report_smsSummary");
+						ReportSmsSummary smsSummary=gson.fromJson(report_smsSummary.toString(), ReportSmsSummary.class);
+						String t="0";
+						if(smsSummary.getTotal()!=null) {
+							t=smsSummary.getTotal();
+						}
+						String s="0";
+						if(smsSummary.getSuccess()!=null) {
+							s=smsSummary.getSuccess();
+						}
+                        long sub=Long.parseLong(t);
+                        long del=Long.parseLong(s);
+                        
+                        long pending=smsSummary.getPending();
+                        long pending_per=0;
+                        
+                         total_sub = total_sub + (int) sub;
+                         total_del = total_del + (int) del;
+                         total_pending = total_pending + pending;
+                       //  System.out.println("del=="+del);
+                        // System.out.println("sub=="+sub);
+                        // System.out.println("per=="+(del *100) * sub);
+                         long per =0;
+                         if(sub!=0) {
+                        	 per =(del*100 / (sub));
+                        	 pending_per=(pending*100 / (sub));
+                         }
+                        
+                      //  System.out.println(per);
+                        server4.setSUB(sub);
+                        server4.setDEL(del);
+                        server4.setPending(pending);
+                        server4.setPercentage(per);
+                        server4.setPending_per(pending_per);
+                        server4.setAccount(details.getAccountname());
+                        server4.setId((long) details.getAccountid());
+                        list.add(server4);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			}
+		}
+		
+	/*	Server4 server4=new Server4();
+		server4.setSUB(total_sub);
+        server4.setDEL(total_del);
+        server4.setPending(total_pending);
+        System.out.println(total_del);
+        System.out.println(total_sub);
+        
+        long per = (total_del / (total_sub / 100));
+        server4.setPercentage(per);
+        server4.setAccount("total");
+        list.add(server4);*/
+		return list;
+	}
 	public List<Server4VfReport> getServer4DataForVFWithApi(String fromdate,String todate,String testing){
 		List<Server4VfReport> list=new ArrayList<Server4VfReport>();
 		Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
@@ -2085,6 +2191,62 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
      	  st=conn.createStatement();
      	  
       	 rs = st.executeQuery("select * from accountdetails_s5 where pwd is not null");
+      //	 rs = st.executeQuery("select * from accountDetails_s5 where pwd is not null");
+
+      	 while(rs.next())
+      	 {
+      		AccountDetails details=new AccountDetails();
+      		details.setId(rs.getInt("id"));
+      		details.setAccountid(rs.getInt("accountid"));
+      		details.setAccountname(rs.getString("accountname")); 
+      		details.setCompanyname(rs.getString("companyname"));
+      		details.setAccounttype(rs.getString("accounttype"));
+      		details.setPM(rs.getString("PM"));
+      		details.setServer(rs.getString("server"));
+      		details.setPwd(rs.getString("pwd"));
+      		accountDetails.add(details);
+      	 }
+        }
+       catch(Exception e)
+        {
+     	  e.printStackTrace();
+        }finally {
+			try {
+				if(conn!=null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(st!=null) {
+					st.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return accountDetails;
+       
+	}
+	
+	public ArrayList<AccountDetails> getAccountDetailsByAccountType(String accountType) {
+		ArrayList<AccountDetails> accountDetails=new ArrayList<AccountDetails>();
+        Connection conn=DbConnection.getInstance().getConnection();
+         Statement st=null;
+        ResultSet rs=null;
+        try
+        {
+     	  st=conn.createStatement();
+     	  
+      	 rs = st.executeQuery("select * from accountdetails_s5 where accounttype='"+accountType+"' and pwd is not null");
       //	 rs = st.executeQuery("select * from accountDetails_s5 where pwd is not null");
 
       	 while(rs.next())
