@@ -50,68 +50,17 @@ cal.add(Calendar.MINUTE, 30);
 try{
 	String requested_date=java.time.LocalDate.now().toString();
     Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
-    List<Server4> list=daoImpl.getServer4DataWithApi(requested_date,requested_date,"campaign");
-    List<Server4> list1=daoImpl.getServer4DataWithApi(requested_date,requested_date,"transactional1");
-    List<Server4> list2=daoImpl.getServer4DataWithApi(requested_date,requested_date,"transactional2");
+    List<Server4> list=daoImpl.getServer4DataWithApi(requested_date,requested_date);
    // System.out.println(list);
 	String txt_msg="";
-	long SUB=0;
-	long SUB1=0;
-	long SUB2=0;
-	long GRANDSUB=0;
+	 long SUB=0;
 	long DEL=0;
-	long DEL1=0;
-	long DEL2=0;
-	long GRANDDEL=0;
 	long percentage=0;
-	long percentage1=0;
-	long percentage2=0;
-	long GRANDpercentage=0;
 	long Pending=0;
-	long Pending1=0;
-	long Pending2=0;
-	long GRANDPending=0;
 	long Pending_PER=0;
-	long Pending_PER1=0;
-	long Pending_PER2=0;
-	long GRANDPending_PER=0;
 	for(Server4 server4:list) {
 		if(server4.getSUB()>0) {
-			%>
-				<tr><td align='center' style='background-color: #efa5a5;'><%=server4.getAccount()%></td>
- 			<td align='center' style='background-color: #efa5a5;'><%=server4.getSUB()%></td>
- 			<td align='center' style='background-color: #efa5a5;'><%=server4.getDEL()%></td>
- 			<td align='center' style='background-color: #efa5a5;'><%=server4.getPercentage()%></td>
- 			<td align='center' style='background-color: #efa5a5;'><%=server4.getPending()%></td>
- 			<td align='center' style='background-color: #efa5a5;'><%=server4.getPending_per()%></td>
- 			
- 			</tr>
-			<%
-			System.out.println("Before sub=="+SUB);
-	 		System.out.println("sub value=="+server4.getSUB());
-	 		SUB=SUB+server4.getSUB();
-	 		System.out.println("after add  sub=="+SUB);
-	 		DEL=DEL+server4.getDEL();
-	 		Pending=Pending+server4.getPending();
-		}}
-	if(SUB>0){
-		percentage=(DEL*10)/(SUB/10);
-	 	Pending_PER=(Pending*10)/(SUB/10);
-	 	
-	 	%>
-	 	<tr>
-	 	<td> </td>
-	 	<td align='center'><%=SUB %></td>
-	 	<td align='center'><%=DEL%></td>
-	 	<td align='center'><%=percentage %></td>
-	 	<td align='center'><%=Pending %></td>
-	 	<td align='center'><%=Pending_PER %></td>
-	 	</tr>
-	<%}
-	
-	
-	for(Server4 server4:list1) {
-		if(server4.getSUB()>0) {
+ 			if(server4.getAccount().equalsIgnoreCase("vfirstTr31") || server4.getAccount().equalsIgnoreCase("vfirstTr14") || server4.getAccount().equalsIgnoreCase("vfirstTr5") || server4.getAccount().equalsIgnoreCase("vfirstTr6")) {
  			%>
  			<tr><td align='center' style='background-color: #FAFC75;'><%=server4.getAccount()%></td>
  			<td align='center' style='background-color: #FAFC75;'><%=server4.getSUB()%></td>
@@ -120,83 +69,39 @@ try{
  			<td align='center' style='background-color: #FAFC75;'><%=server4.getPending()%></td>
  			<td align='center' style='background-color: #FAFC75;'><%=server4.getPending_per()%></td>
  			
- 			</tr>
- 			<%
- 			System.out.println("Before sub=="+SUB1);
-	 		System.out.println("sub value=="+server4.getSUB());
-	 		SUB1=SUB1+server4.getSUB();
-	 		System.out.println("after add  sub=="+SUB1);
-	 		DEL1=DEL1+server4.getDEL();
-	 		Pending1=Pending1+server4.getPending();	
-		}}
-	if(SUB1>0){
-		percentage1=(DEL1*10)/(SUB1/10);
-	 	Pending_PER1=(Pending1*10)/(SUB1/10);
-	 	
-	 	%>
-	 	<tr>
-	 	<td></td>
-	 	<td align='center'><%=SUB1 %></td>
-	 	<td align='center'><%=DEL1%></td>
-	 	<td align='center'><%=percentage1 %></td>
-	 	<td align='center'><%=Pending1 %></td>
-	 	<td align='center'><%=Pending_PER1 %></td>
-	 	</tr>
-		<%	
-	}
-	
-	for(Server4 server4:list2) {
-		if(server4.getSUB()>0) {
+ 			<tr>
+ 			<tr><td align='center' style='background-color: #FAFC75;'></td></tr>
+ 			<%}else{
  				%>
- 				<tr style='background-color: #3bc33b;'><td align='center'><%=server4.getAccount()%></td>
+ 				<tr><td align='center' style='background-color: orange;'><%=server4.getAccount()%></td>
  				<td align='center'><%=server4.getSUB() %></td>
  				<td align='center'><%=server4.getDEL() %></td>
  				<td align='center'><%=server4.getPercentage() %></td>
  				<td align='center'><%=server4.getPending() %></td>
  				<td align='center'><%=server4.getPending_per()%></td>
  				</tr>
- 			<% 
- 			System.out.println("Before sub=="+SUB2);
+ 			<% }
+ 			System.out.println("Before sub=="+SUB);
 	 		System.out.println("sub value=="+server4.getSUB());
-	 		SUB2=SUB2+server4.getSUB();
-	 		System.out.println("after add  sub=="+SUB2);
-	 		DEL2=DEL2+server4.getDEL();
-	 		Pending2=Pending2+server4.getPending();
+	 		SUB=SUB+server4.getSUB();
+	 		System.out.println("after add  sub=="+SUB);
+	 		DEL=DEL+server4.getDEL();
+	 		Pending=Pending+server4.getPending();
 		}
 	}
-	if(SUB2>0){
-		percentage2=(DEL2*10)/(SUB2/10);
-	 	Pending_PER2=(Pending2*10)/(SUB2/10);
-	 	
-	 	%>
-	 	<tr>
-	 	<td></td>
-	 	<td align='center'><%=SUB2 %></td>
-	 	<td align='center'><%=DEL2%></td>
-	 	<td align='center'><%=percentage2 %></td>
-	 	<td align='center'><%=Pending2 %></td>
-	 	<td align='center'><%=Pending_PER2 %></td>
-	 	</tr>
-	<%}
-	
-	GRANDSUB=SUB+SUB1+SUB2;
-	GRANDDEL=DEL+DEL1+DEL2;
-	GRANDPending=Pending+Pending1+Pending2;
-	GRANDpercentage=(GRANDDEL*10)/(GRANDSUB/10);
- 	GRANDPending_PER=(GRANDPending*10)/(GRANDSUB/10);
+	percentage=(DEL*10)/(SUB/10);
+ 	Pending_PER=(Pending*10)/(SUB/10);
  	long lastcount=daoImpl.lastSubCount();
  	System.out.println("lastcountt===="+lastcount);
  	%>
- 	
  	<tr>
- 	<td align='center' style="background-color: orange;">Total</td>
- 	<td align='center'><%=GRANDSUB %></td>
- 	<td align='center'><%=GRANDDEL%></td>
- 	<td align='center'><%=GRANDpercentage %></td>
- 	<td align='center'><%=GRANDPending %></td>
- 	<td align='center'><%=GRANDPending_PER %></td>
+ 	<td align='center' style='background-color: orange;'>Total </td>
+ 	<td align='center'><%=SUB %></td>
+ 	<td align='center'><%=DEL%></td>
+ 	<td align='center'><%=percentage %></td>
+ 	<td align='center'><%=Pending %></td>
+ 	<td align='center'><%=Pending_PER %></td>
  	</tr>
- 	
  	<tr>
  	<td align='center' style='background-color: #8080ff ;'>Last Half Hour </td>
  	<td align='center'><%=lastcount %></td>
@@ -205,7 +110,7 @@ try{
 <% 
 	System.out.println("lastcount===="+lastcount);
 	System.out.println("subbbb===="+SUB);
-	long traffic=GRANDSUB-lastcount;
+	long traffic=SUB-lastcount;
 	System.out.println("traffic===="+traffic);
 	%>
 	<tr>
