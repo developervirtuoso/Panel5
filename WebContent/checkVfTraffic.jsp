@@ -70,6 +70,7 @@ try{
  			<td align='center' style='background-color: #FAFC75;'><%=server4.getPending_per()%></td>
  			
  			<tr>
+ 			<tr><td align='center' style='background-color: #FAFC75;'></td></tr>
  			<%}else{
  				%>
  				<tr><td align='center' style='background-color: orange;'><%=server4.getAccount()%></td>
