@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="org.apache.poi.util.SystemOutLogger"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -187,7 +188,7 @@ try{
 	GRANDPending=Pending+Pending1+Pending2;
 	GRANDpercentage=(GRANDDEL*10)/(GRANDSUB/10);
  	GRANDPending_PER=(GRANDPending*10)/(GRANDSUB/10);
- 	long lastcount=daoImpl.lastSubCount();
+ 	long lastcount=daoImpl.lastSubCountURL();
  	System.out.println("lastcountt===="+lastcount);
  	%>
  	
@@ -220,9 +221,14 @@ try{
     	 			             <td align='center' colspan='4'> </td>
     	 			   </tr> 
 <%
-daoImpl.insertServer4Data(list);
+/*daoImpl.insertServer4Data(list);
 daoImpl.insertServer4Data(list1);
-daoImpl.insertServer4Data(list2);
+daoImpl.insertServer4Data(list2); */
+List<Server4> totalList=new ArrayList<>();
+totalList.addAll(list);
+totalList.addAll(list1);
+totalList.addAll(list2);
+daoImpl.insertServer4DataThroughUrl(totalList);
 }catch(Exception e){
 	e.printStackTrace();
 }

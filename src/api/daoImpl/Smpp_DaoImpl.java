@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -36,6 +37,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -1179,6 +1182,11 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
 				pst.setLong(5, server4.getPercentage());
 				pst.setLong(6, server4.getPending());
 				 i=pst.executeUpdate();
+				 if(i>0) {
+					 System.out.println("successfull==="+pst.toString());
+				 }else {
+					 System.out.println("failed==="+pst.toString());
+				 }
 			}
 			
 			 
@@ -1208,6 +1216,58 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
 		
 	
 	}
+	public void insertServer4DataThroughUrl(List<Server4> list) {
+		Connection Conn=DbConnection.getInstance().getConnection();
+		   int i=0;
+		    PreparedStatement pst=null;
+		   
+		try 
+		{
+			pst=Conn.prepareStatement("insert into server4URL (Account,AccountId,SUB,DEL,percentage,Pending) values(?,?,?,?,?,?)");
+			
+			for(Server4 server4:list) {
+				pst.setString(1,server4.getAccount());
+				pst.setLong(2, server4.getId());
+				pst.setLong(3, server4.getSUB());
+				pst.setLong(4, server4.getDEL());
+				pst.setLong(5, server4.getPercentage());
+				pst.setLong(6, server4.getPending());
+				 i=pst.executeUpdate();
+				 if(i>0) {
+					 System.out.println("successfull==="+pst.toString());
+				 }else {
+					 System.out.println("failed==="+pst.toString());
+				 }
+			}
+			
+			 
+	    	
+	    	
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}finally {
+			try {
+				if(Conn!=null) {
+					Conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(pst!=null) {
+					pst.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+	
+	}
+	
 	public void insertCampaignData(List<Campaign_data> list) {
 		Connection Conn=DbConnection.getInstance().getConnection();
 		   int i=0;
@@ -1550,6 +1610,47 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
 		return mtd;
        
 }
+	public int addLastSubCount(long count) {
+		
+		int i=0;
+		Date date = new Date();  
+		SimpleDateFormat formatter= new SimpleDateFormat("dd MMMM yyyy HH:mm:ss"); 
+  	  //	formatter = new SimpleDateFormat("HH:mm:ss");  
+  	  	Calendar cal = Calendar.getInstance();
+  	  	cal.add(Calendar.HOUR, 5);
+  	  	cal.add(Calendar.MINUTE, 30); 
+  	  	String strtime = formatter.format(cal.getTime()).toString();
+  	  	
+  	  	Connection conn=null;
+  	  	PreparedStatement pst=null;
+  	  	
+  	  	try {
+			conn=DbConnection.getInstance().getConnection();
+			pst=conn.prepareStatement("insert into lastsubcount (count,datetime) values ("+count+",'"+strtime+"')");
+			i=pst.executeUpdate();
+			if(i>0) {
+				System.out.println("successful==>"+pst.toString());
+			}else {
+				System.out.println("failed==>"+pst.toString());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			try {
+				if(conn!=null) {
+					conn.close();
+				}if(pst!=null) {
+					pst.close();
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			e2.printStackTrace();
+			}
+		}
+   	  
+		return i;
+	}
 
 	public long lastSubCount() {
 
@@ -1626,7 +1727,82 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
        
 
 	}
-	public long lastSubCountForCampaign() {
+	public long lastSubCountURL() {
+
+		ArrayList<ApiEmail> apiEmails=new ArrayList<ApiEmail>();
+        Connection conn=DbConnection.getInstance().getConnection();
+        Statement st=null;
+        ResultSet rs=null;
+        long count=0;
+        try
+        {
+        	
+     	  st=conn.createStatement();
+     	  
+      	 rs = st.executeQuery("SELECT id,(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr1' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr1,\r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr2' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr2, \r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstPR1' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPR1, \r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr4' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr4, \r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr12' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr12, \r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr11' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr11, \r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr3' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr3,\r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfCamp' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp,\r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr,\r\n" + 
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfgsm' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfgsm,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfCamp1' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp1,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfCamp2' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp2,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr31' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr31,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr14' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr14,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr5' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr5,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr6' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr6,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTrN01' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTrN01,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr7' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr7,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstPR2' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPR2,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfTest' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfTest,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstPr4' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPr4,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstPr3' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstPr3,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr9' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr9,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr10' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr10,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr15' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr15,\r\n" +
+      	 		"(SELECT SUB FROM server4URL WHERE ACCOUNT ='vfirstTr16' AND DATE(DATETIME) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr16\r\n" +
+      			 " FROM server4URL LIMIT 1;");
+      	 while(rs.next())
+      	 {
+      		count=rs.getLong("vfirstTr15")+rs.getLong("vfirstTr16")+rs.getLong("vfirstPr4")+rs.getLong("vfirstPr3")+rs.getLong("vfirstTr9")+rs.getLong("vfirstTr10")+rs.getLong("vfirstTr7")+rs.getLong("vfirstPR2")+rs.getLong("vfTest")+rs.getLong("vfgsm")+rs.getLong("vfirstTr")+rs.getLong("vfCamp")+rs.getLong("vfCamp1")+rs.getLong("vfCamp2")+rs.getLong("vfirstTr1")+rs.getLong("vfirstTr2")+rs.getLong("vfirstTr3")+rs.getLong("vfirstPR1")+rs.getLong("vfirstTr4")+rs.getLong("vfirstTr12")+rs.getLong("vfirstTr11")+rs.getLong("vfirstTr31")+rs.getLong("vfirstTr14")+rs.getLong("vfirstTr5")+rs.getLong("vfirstTr6")+rs.getLong("vfirstTrN01");
+      	 System.out.println("last count value after sql query="+count);
+      	 }
+        }
+       catch(Exception e)
+        {
+     	  e.printStackTrace();
+        }finally {
+			try {
+				if(conn!=null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(st!=null) {
+					st.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return count;
+       
+
+	}
+	public long lastSubCountForCampaign2() {
 
         Connection conn=DbConnection.getInstance().getConnection();
         Statement st=null;
@@ -1640,10 +1816,64 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
       	 rs = st.executeQuery("SELECT id,(SELECT sub FROM campaign_data WHERE ACCOUNT ='vfCamp' AND DATE(timee) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp,\r\n" + 
       	 		"(SELECT sub FROM campaign_data WHERE ACCOUNT ='vfCamp1' AND DATE(timee) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp1,\r\n" +
       	 		"(SELECT sub FROM campaign_data WHERE ACCOUNT ='vfCamp2' AND DATE(timee) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp2\r\n" +
-      			 " FROM campaign_data LIMIT 1;");
+      	 		 " FROM campaign_data LIMIT 1;");
       	 while(rs.next())
       	 {
       		count=rs.getLong("vfCamp")+rs.getLong("vfCamp1")+rs.getLong("vfCamp2");
+      	 
+      	 }
+        }
+       catch(Exception e)
+        {
+     	  e.printStackTrace();
+        }finally {
+			try {
+				if(conn!=null) {
+					conn.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(st!=null) {
+					st.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return count;
+       
+
+	}
+	public long lastSubCountForCampaign() {
+
+        Connection conn=DbConnection.getInstance().getConnection();
+        Statement st=null;
+        ResultSet rs=null;
+        long count=0;
+        try
+        {
+        	
+     	  st=conn.createStatement();
+     	  
+      	 rs = st.executeQuery("SELECT id,(SELECT sub FROM campaign_data WHERE ACCOUNT ='vfCamp' AND DATE(timee) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp,\r\n" + 
+      	 		"(SELECT sub FROM campaign_data WHERE ACCOUNT ='vfCamp1' AND DATE(timee) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp1,\r\n" +
+      	 		"(SELECT sub FROM campaign_data WHERE ACCOUNT ='vfCamp2' AND DATE(timee) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfCamp2,\r\n" +
+      	 		"(SELECT sub FROM campaign_data WHERE ACCOUNT ='vfirstTr11' AND DATE(timee) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr11,\r\n" +
+      	 		"(SELECT sub FROM campaign_data WHERE ACCOUNT ='vfirstTr12' AND DATE(timee) = CURDATE() ORDER BY id DESC LIMIT 1) AS vfirstTr12\r\n" +
+
+      			 " FROM campaign_data LIMIT 1;");
+      	 while(rs.next())
+      	 {
+      		count=rs.getLong("vfCamp")+rs.getLong("vfCamp1")+rs.getLong("vfCamp2")+rs.getLong("vfirstTr11")+rs.getLong("vfirstTr12");
       	 
       	 }
         }
@@ -2014,7 +2244,78 @@ public void sendVFTestMail(String to_email,String cc_email,String sub, String tx
 		for(AccountDetails details:accountDetails) {
 			if(details.getAccountname().equalsIgnoreCase("vfCamp")||
 					details.getAccountname().equalsIgnoreCase("vfCamp1")||
-					details.getAccountname().equalsIgnoreCase("vfCamp2")){
+					details.getAccountname().equalsIgnoreCase("vfCamp2")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr11")||
+					details.getAccountname().equalsIgnoreCase("vfirstTr12")){
+			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
+			try {
+				//System.out.println(data);
+				JSONObject jsonObject=new JSONObject(data);
+				JSONObject response=jsonObject.getJSONObject("response");
+				if(response.has("report_smsSummaryList")) {
+					JSONArray report_smsSummaryList=response.getJSONArray("report_smsSummaryList");
+					JSONObject report_smsSummaryobj=report_smsSummaryList.getJSONObject(0);
+					if(report_smsSummaryobj.has("report_smsSummary")) {
+						Campaign_data campaign_data=new Campaign_data();
+						Gson gson=new Gson();
+						JSONObject report_smsSummary=report_smsSummaryobj.getJSONObject("report_smsSummary");
+						ReportSmsSummary smsSummary=gson.fromJson(report_smsSummary.toString(), ReportSmsSummary.class);
+						String t="0";
+						if(smsSummary.getTotal()!=null) {
+							t=smsSummary.getTotal();
+						}
+						String s="0";
+						if(smsSummary.getSuccess()!=null) {
+							s=smsSummary.getSuccess();
+						}
+						String f="0";
+						if(smsSummary.getFailed()!=null) {
+							f=smsSummary.getFailed();
+						}
+						long p=0;
+						if(smsSummary.getPending()!=0) {
+							p=smsSummary.getPending();
+						}
+                        long sub=Long.parseLong(t);
+                        long del=Long.parseLong(s);
+                        long pending=p;
+                        
+                        long per=0;
+                        if(sub!=0) {
+                        	per =(del*100 / (sub));
+                        }
+                        
+                 
+                       campaign_data.setAccount(details.getAccountname());
+                       campaign_data.setSub(sub);
+                       campaign_data.setDel(del);
+                       campaign_data.setPer(per);
+                       campaign_data.setPending(pending);
+                       campaign_data.setTimee(timeStamp);
+                       
+                        list.add(campaign_data);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			}
+		}
+
+		return list;
+	}
+	public List<Campaign_data> getCampaignData2(String fromdate,String todate,String timeStamp){
+		List<Campaign_data> list=new ArrayList<Campaign_data>();
+		Smpp_DaoImpl daoImpl=new Smpp_DaoImpl();
+		ArrayList<AccountDetails> accountDetails =daoImpl.getAccountDetails();
+		ApiController apiController=new ApiController();
+		long total_sub=0;
+		long total_del=0;
+		long total_failed=0;
+		for(AccountDetails details:accountDetails) {
+			if(details.getAccountname().equalsIgnoreCase("vfCamp")||
+					details.getAccountname().equalsIgnoreCase("vfCamp1")||
+					details.getAccountname().equalsIgnoreCase("vfCamp2")) {
 			String data=apiController.getServer4DataToApi(details.getAccountname(), details.getPwd(), fromdate, todate);
 			try {
 				//System.out.println(data);

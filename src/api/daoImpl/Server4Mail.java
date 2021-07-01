@@ -1,6 +1,7 @@
 package api.daoImpl;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
@@ -43,7 +44,11 @@ public class Server4Mail {
     	  SimpleDateFormat formatter= new SimpleDateFormat("dd MMMM yyyy"); 
     	  String strdate= formatter.format(date); 
     	  formatter = new SimpleDateFormat("HH:mm:ss");  
-    	   String strtime = formatter.format(date);
+    	  Calendar cal = Calendar.getInstance();
+     	 cal.add(Calendar.HOUR, 5);
+     	 cal.add(Calendar.MINUTE, 30); 
+     	  String strtime = formatter.format(cal.getTime()).toString();
+    	//   String strtime = formatter.format(date);
           MimeMessage message = new MimeMessage(session);
           message.setFrom(new InternetAddress(from));//change accordingly  
           InternetAddress[] addresses = InternetAddress.parse(email);

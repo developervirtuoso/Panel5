@@ -14,10 +14,15 @@ public class C3P0DataSource {
 		   Connection dbconn = null;
 	        try {
 	            Class.forName("com.mysql.jdbc.Driver");
-	    dbconn = DriverManager.getConnection("jdbc:mysql://localhost:3306/panel5?autoReconnect=true", "root", "");
+	//  dbconn = DriverManager.getConnection("jdbc:mysql://localhost:3306/panel5?autoReconnect=true", "root", "");
+	//   dbconn = DriverManager.getConnection("jdbc:mysql://localhost:3306/panel5?autoReconnect=true", "root", "root@#123");
+
 		 //dbconn = DriverManager.getConnection("jdbc:mysql://localhost:3130/panel5?autoReconnect=true", "reports", "");
 		  //dbconn = DriverManager.getConnection("jdbc:mysql://localhost:3306/panel5?autoReconnect=true", "reports", "");
-	     //dbconn = DriverManager.getConnection("jdbc:mysql://localhost:3306/panel5", "u_panel5", "Panel@0123");      
+	//  dbconn = DriverManager.getConnection("jdbc:mysql://localhost:3306/panel5", "smpp_user", "smpp@123");  
+	            //for automatic stats on 165   
+	  dbconn = DriverManager.getConnection("jdbc:mysql://localhost:3306/panel5", "u_panel5", "Panel@0123");    
+
 
 
 	          } catch (Exception ex) {
